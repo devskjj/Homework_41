@@ -23,15 +23,23 @@ public class Client {
         try (Socket socket = new Socket(host, port)) {
             Scanner scanner = new Scanner(System.in);
 
+            InputStream inputStream = socket.getInputStream();
             OutputStream outputStream = socket.getOutputStream();
+
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
             PrintWriter printWriter = new PrintWriter(outputStream);
 
-            try (scanner; printWriter) {
+            Scanner reply = new Scanner(inputStreamReader);
+
+            try (scanner; printWriter; reply) {
                 while (true) {
                     String message = scanner.nextLine();
                     printWriter.write(message);
                     printWriter.write(System.lineSeparator());
                     printWriter.flush();
+
+                    String answer = reply.nextLine();
+                    System.out.println(answer);
 
                     if (message.equalsIgnoreCase("Bye")) {
                         return;
