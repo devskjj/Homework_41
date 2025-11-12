@@ -28,12 +28,18 @@ public class Server {
 
     private void handle(Socket socket) throws IOException {
         InputStream inputStream = socket.getInputStream();
+        OutputStream outputStream = socket.getOutputStream();
+
         InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+        PrintWriter printWriter = new PrintWriter(outputStream, true);
 
         try (Scanner scanner = new Scanner(inputStreamReader)) {
             while (true) {
                 String input = scanner.nextLine().trim();
+                String output = new StringBuilder(input).reverse().toString();
+
                 System.out.printf("Got message: %s%n", input);
+                printWriter.println(output);
 
                 if (input.equalsIgnoreCase("bye")) {
                     System.out.println("Конец работы!");
