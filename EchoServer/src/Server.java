@@ -27,10 +27,10 @@ public class Server {
     }
 
     private void handle(Socket socket) throws IOException {
-        InputStream inputStream = socket.getInputStream(); // сохраняем ссылку на поток входящих данных
-        InputStreamReader inputStreamReader = new InputStreamReader(inputStream); // сырой поток байтов превращает в символы
+        InputStream inputStream = socket.getInputStream();
+        InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
 
-        try (Scanner scanner = new Scanner(inputStreamReader)) { // сканер с потоком символов
+        try (Scanner scanner = new Scanner(inputStreamReader)) {
             while (true) {
                 String input = scanner.nextLine().trim();
                 System.out.printf("Got message: %s%n", input);
@@ -41,7 +41,7 @@ public class Server {
                 }
             }
         } catch (NoSuchElementException e) {
-            System.out.println("Client disconnected");
+            System.out.println("Client is disconnected!");
         }
     }
 }

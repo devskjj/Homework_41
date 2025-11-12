@@ -18,23 +18,20 @@ public class Client {
     }
 
     public void run() {
-        System.out.println("Напиши 'Bye' чтобы выйти.");
+        System.out.println("Напишите 'Bye' чтобы выйти.");
 
         try (Socket socket = new Socket(host, port)) {
             Scanner scanner = new Scanner(System.in);
 
-
             OutputStream outputStream = socket.getOutputStream();
-            PrintWriter printWriter = new PrintWriter(outputStream); //записать в исходящий поток для сервера
-
+            PrintWriter printWriter = new PrintWriter(outputStream);
 
             try (scanner; printWriter) {
                 while (true) {
                     String message = scanner.nextLine();
                     printWriter.write(message);
                     printWriter.write(System.lineSeparator());
-                    printWriter.flush(); // типо отправляй
-
+                    printWriter.flush();
 
                     if (message.equalsIgnoreCase("Bye")) {
                         return;
@@ -42,9 +39,9 @@ public class Client {
                 }
             }
         } catch (NoSuchElementException e) {
-            System.out.println("Соединение оборвано");
+            System.out.println("Connection is aborted!");
         } catch (IOException e) {
-            System.out.printf("Cant connect to server %s:%s %n", host, port);
+            System.out.printf("Can't connect to server %s:%s %n", host, port);
             e.printStackTrace();
         }
     }
