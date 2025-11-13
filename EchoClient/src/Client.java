@@ -18,7 +18,11 @@ public class Client {
     }
 
     public void run() {
-        System.out.println("Напишите 'Bye' чтобы выйти.");
+        System.out.println("Напишите " + "date - чтобы получить текущую дату\n" +
+                "time - чтобы получить текущее время\n" +
+                "reverse - переворачивает строку сообщения (пример запроса - reverse String is Reversed)\n" +
+                "upper - вернуть строку в верхнем регистре (пример запроса - upper я не кричу)\n" +
+                "bye - завершить работу сервера.\n");
 
         try (Socket socket = new Socket(host, port)) {
             Scanner scanner = new Scanner(System.in);
@@ -40,10 +44,6 @@ public class Client {
 
                     String answer = reply.nextLine();
                     System.out.println(answer);
-
-                    if (message.equalsIgnoreCase("Bye")) {
-                        return;
-                    }
                 }
             }
         } catch (NoSuchElementException e) {
