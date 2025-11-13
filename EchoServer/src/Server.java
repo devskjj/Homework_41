@@ -3,6 +3,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import Enum.Commands;
 
 public class Server {
     private final int port;
@@ -36,15 +37,25 @@ public class Server {
         try (Scanner scanner = new Scanner(inputStreamReader)) {
             while (true) {
                 String input = scanner.nextLine().trim();
-                String output = new StringBuilder(input).reverse().toString();
+//                String output = new StringBuilder(input).reverse().toString();
+                String[] parts = input.split(" ", 2);
+                try {
+                String command = parts[0].toUpperCase();
+                String message = parts[1];
 
-                System.out.printf("Got message: %s%n", input);
-                printWriter.println(output);
-
-                if (input.equalsIgnoreCase("bye")) {
-                    System.out.println("Конец работы!");
-                    return;
+                try {
+                    Commands cmd = Commands.valueOf(command);
+                    cmd.execute(message, printWriter);
+                } catch (IllegalArgumentException e) {
+                    printWriter.println(input);
                 }
+//                System.out.printf("Got message: %s%n", input);
+//                printWriter.println(output);
+
+//                if (input.equalsIgnoreCase("bye")) {
+//                    System.out.println("Конец работы!");
+//                    return;
+//                }
             }
         } catch (NoSuchElementException e) {
             System.out.println("Client is disconnected!");
